@@ -1,0 +1,19 @@
+1. the ControlPanel is closely coupled with a Puzzle and it translates hand
+positions/button collisions into puzzle actions and puzzle state updates.
+2. World has to be more closely integrated with escape room
+3. Organize Worlds/Agents hierarchically. A sub-world necessitates a sub-agent.
+
+the agent will:
+  1. player.getState to get the current activity's state
+  2. getDomain to get the current activity
+  3. getActions to get the current activity's actions
+
+the two ways to handle next-state/reward:
+  1. callbacks (immediate)
+  2. call agent.getAction with args (nstate, reward). getAction records the last
+  action and auto updates. this isn't great because it's not idempotent
+  3. try to replicate keras
+  4. use this and convert the callback style into a normal, blocked return (this
+      will probably work the best in terms of race conditions and standard
+      frame-locked interfaces like OAIG):
+    https://stackoverflow.com/questions/38499261/how-to-block-and-wait-for-async-callback-based-python-function-calls/38502488
